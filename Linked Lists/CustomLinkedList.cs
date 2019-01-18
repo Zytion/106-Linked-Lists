@@ -108,5 +108,61 @@ namespace Linked_Lists
 			}
 			return currentNode.Data;
 		}
+
+        /// <summary>
+        /// Takes an integer parameter, which is the index of the data to remove from the list
+        /// and returns the actual data that was removed
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>The data that was removed</returns>
+        public T Remove(int index)
+        {
+            Console.WriteLine("Removing node at index: " + index);
+
+            if (index < 0 || index >= count)
+                throw new IndexOutOfRangeException("Index was invalid");
+
+            CustomLinkedNode<T> removedNode;
+
+            //If there is only one Node
+            if (count == 1)
+            {
+                removedNode = headNode;
+                headNode = null;
+                tailNode = null;
+            }
+            //If removing head Node
+            else if (index == 0)
+            {
+                removedNode = headNode;
+                headNode = headNode.NextNode;
+            }
+            //If removing tail Node
+            else if (index == count - 1)
+            {
+                removedNode = tailNode;
+                CustomLinkedNode<T> currentNode = headNode;
+                for (int i = 0; i < index - 1; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+                currentNode.NextNode = null;
+            }
+            //If removing a Node in the middle
+            else
+            {
+                CustomLinkedNode<T> currentNode = headNode;
+                for (int i = 0; i < index - 1; i++)
+                {
+                    currentNode = currentNode.NextNode;
+                }
+                removedNode = currentNode.NextNode;
+                currentNode.NextNode = currentNode.NextNode.NextNode;
+            }
+
+            count--;
+            Console.WriteLine("Removed");
+            return removedNode.Data;
+        }
 	}
 }
